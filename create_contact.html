@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Create a contact</title>
+    </head>
+
+    <body>
+        <p>A contact name <label for="name"></label><input type="text" id="name"></p>
+        <p>A contact phone number <label for="number"></label><input type="text" id="number"></p>
+
+        <input type="button" value="Save a contact" onclick="saveContact()">
+        <input type="button" value="Return to the main page" onclick="location.href='index.html'">
+    
+        <script>
+            function saveContact() {
+                const contactName = document.getElementById("name").value;
+                const contactNumber = document.getElementById("number").value;
+
+                if (!contactName || !contactNumber) {
+                    return;
+                }
+
+                localStorage.setItem(contactName, contactNumber);
+                location.href="index.html";
+            }
+        </script>
+    </body>
+</html>

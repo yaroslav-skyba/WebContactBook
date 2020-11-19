@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Searched contacts</title>
+    </head>
+
+    <body onload="searchContact()">
+        <input type="button" value="Return to the main page" onclick="location.href='index.html'"><br><br>
+
+        <div id="contacts">
+            <p>SEARCHED CONTACTS<br><br>
+        </div>
+
+        <script>
+            function searchContact() {
+                const contacts = new Map();
+
+                const searchedDataKey = "searchedData";
+                const searchedData = localStorage.getItem(searchedDataKey);
+                localStorage.removeItem(searchedDataKey);
+
+                const localStorageLength = localStorage.length;
+
+                for (let i = 0; i < localStorageLength; i++) {
+                    const contactName = localStorage.key(i);
+                    const contactNumber = localStorage.getItem(contactName);
+
+                    if (contactNumber.includes(searchedData) || contactName.includes(searchedData)) {
+                        contacts.set(contactName, contactNumber);
+                    }
+                }
+
+                const contactsKeys = contacts.keys();
+
+                for (let i = 0; i < contacts.size; i++) {
+                    let tag = document.createElement("b");
+
+                    const contactsDiv = document.getElementById("contacts");
+
+                    tag.appendChild(document.createTextNode("A contact name"));
+                    contactsDiv.appendChild(tag);
+
+                    const contactName = contactsKeys.next().value;
+
+                    tag = document.createElement("p");
+                    tag.appendChild(document.createTextNode(contactName));
+                    contactsDiv.appendChild(tag);
+
+                    tag = document.createElement("b");
+                    tag.appendChild(document.createTextNode("A contact phone number"));
+                    contactsDiv.appendChild(tag);
+
+                    tag = document.createElement("p");
+                    tag.appendChild(document.createTextNode(contacts.get(contactName)));
+                    contactsDiv.appendChild(tag);
+
+                    tag = document.createElement("br");
+                    contactsDiv.appendChild(tag);
+
+                    tag = document.createElement("br");
+                    contactsDiv.appendChild(tag);
+                }
+            }
+
+        </script>
+    </body>
+</html>

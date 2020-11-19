@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Web contact book</title>
+    </head>
+
+    <body onload="viewContacts()">
+
+        <div id="contacts">
+            <p>Search a contact<br>
+
+            <label><input type="text" id="search" onchange="saveSearchedData()"></label><br><br></p>
+
+            <p><input type="button" value="Create a contact" onclick="location.href='create_contact.html'"></p>
+            <p>
+                <input type="button" value="Remove a contact" onclick="removeContact()">
+                <label for="remove"></label><input type="text" id="remove">
+            </p><br>
+            <p>SEARCHED CONTACTS<br><br>
+        </div>
+
+        <script>
+            function viewContacts() {
+                const localStorageLength = localStorage.length;
+
+                if (localStorageLength === 0) {
+                    return;
+                }
+
+                for (let i = 0; i < localStorageLength; i++) {
+                    let tag = document.createElement("b");
+
+                    const divContacts = document.getElementById("contacts");
+
+                    tag.appendChild(document.createTextNode("A contact name"));
+                    divContacts.appendChild(tag);
+
+                    const contactNameIndex = localStorageLength - i - 1;
+
+                    tag = document.createElement("p");
+                    tag.appendChild(document.createTextNode(localStorage.key(contactNameIndex)));
+                    divContacts.appendChild(tag);
+
+                    tag = document.createElement("b");
+                    tag.appendChild(document.createTextNode("A contact phone number"));
+                    divContacts.appendChild(tag);
+
+                    tag = document.createElement("p");
+                    tag.appendChild(document.createTextNode(localStorage.getItem(localStorage.key(contactNameIndex))));
+                    divContacts.appendChild(tag);
+
+                    tag = document.createElement("br");
+                    divContacts.appendChild(tag);
+
+                    tag = document.createElement("br");
+                    divContacts.appendChild(tag);
+                }
+            }
+            
+            function saveSearchedData() {
+                localStorage.setItem("searchedData", document.getElementById("search").value);
+                location.href='search_contact.html';
+            }
+
+            function removeContact() {
+                const contactData = document.getElementById("remove").value;
+
+                localStorage.removeItem(contactData);
+
+                for (let i = 0; i < localStorage.length; i++) {
+                    const contactName = localStorage.key(i);
+
+                    if (contactData === localStorage.getItem(contactName)) {
+                        localStorage.removeItem(contactName);
+                    }
+                }
+
+                window.location.reload();
+            }
+        </script>
+    </body>
+</html>
